@@ -48,29 +48,11 @@
             cursor: pointer;
         }
 
-        /* colors */
-        .num {
-            background: #f1f1f1;
-        }
-
-        .operator {
-            background: #ff9f43;
-            color: white;
-        }
-
-        .equal {
-            background: #2ecc71;
-            color: white;
-        }
-
-        .clear {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .special {
-            background: #bdc3c7;
-        }
+        .num { background: #f1f1f1; }
+        .operator { background: #ff9f43; color: white; }
+        .equal { background: #2ecc71; color: white; }
+        .clear { background: #e74c3c; color: white; }
+        .special { background: #bdc3c7; }
     </style>
 </head>
 
@@ -84,8 +66,8 @@
 
             <!-- Row 1 -->
             <button class="clear" onclick="clearDisplay()">AC</button>
-            <button class="special" onclick="append('*')">X</button>
-            <button class="special" onclick="append('+/-')">+/-</button>
+            <button class="special" onclick="backspace()">X</button>
+            <button class="special" onclick="toggleSign()">+/-</button>
             <button class="operator" onclick="append('/')">/</button>
 
             <!-- Row 2 -->
@@ -107,7 +89,7 @@
             <button class="operator" onclick="append('+')">+</button>
 
             <!-- Row 5 -->
-            <button class="special" onclick="append('%')">%</button>
+            <button class="special" onclick="percentage()">%</button>
             <button class="num" onclick="append('0')">0</button>
             <button class="num" onclick="append('.')">.</button>
             <button class="equal" onclick="calculate()">=</button>

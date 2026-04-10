@@ -1,28 +1,56 @@
 let display = document.getElementById("display");
 
+// Append values
 function append(value) {
     display.value += value;
 }
-
+function backspace() {
+    display.value = display.value.slice(0, -1);
+}
+// Clear display
 function clearDisplay() {
     display.value = "";
 }
 
+// Toggle +/-
+function toggleSign() {
+
+    let exp = display.value;
+
+    if (!exp) return;
+
+    // Find last operator position
+    let lastOpIndex = Math.max(
+        exp.lastIndexOf('+'),
+        exp.lastIndexOf('-'),
+        exp.lastIndexOf('*'),
+        exp.lastIndexOf('/')
+    );
+
+    let number = exp.substring(lastOpIndex + 1);
+    let before = exp.substring(0, lastOpIndex + 1);
+
+    // If already negative → remove (- )
+    if (number.startsWith("(-") && number.endsWith(")")) {
+        number = number.slice(2, -1);
+    } else {
+        number = "(-" + number + ")";
+    }
+
+    display.value = before + number;
+}
+
+// Percentage
+function percentage() {
+    if (display.value) {
+        display.value = (parseFloat(display.value) / 100).toString();
+    }
+}
+
+// Calculate (calls backend)
 async function calculate() {
 
     let expression = display.value;
-
-    // Split numbers and operator (simple logic)
-    let operator;
-    if (expression.includes("+")) operator = "+";
-    else if (expression.includes("-")) operator = "-";
-    else if (expression.includes("*")) operator = "*";
-    else if (expression.includes("/")) operator = "/";
-
-    let parts = expression.split(operator);
-
-    let n1 = parts[0];
-    let n2 = parts[1];
 
     try {
         const response = await fetch(
@@ -33,9 +61,7 @@ async function calculate() {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    n1: n1,
-                    n2: n2,
-                    op: operator
+                    expression: expression
                 })
             }
         );
